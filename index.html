@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RakshaPath 3D — a junction you can make safer</title>
+<meta name="description" content="A live 3D model of a busy Indian road junction. Switch on three small fixes — a refuge island, a two-wheeler stop box, calmer approaches — and watch the near-misses fall.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231c2b39'/><circle cx='16' cy='9' r='4' fill='%23ff3524'/><circle cx='16' cy='23' r='4' fill='%232fe07a'/></svg>">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand plate-band-green">
+    <span class="brand-name">RAKSHAPATH&nbsp;3D</span>
+    <span class="brand-sub">a junction you can make safer</span>
+  </div>
+  <nav class="topnav" aria-label="Sections">
+    <a href="#problem">The problem</a>
+    <a href="#junction">The junction</a>
+    <a href="#outcome">What changes</a>
+    <a href="#model">How it works</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ PROBLEM ============ -->
+  <section id="problem" class="hero">
+    <p class="eyebrow">THE PROBLEM</p>
+    <h1>People cross. Cars turn.<br>Both hope the other one stops.</h1>
+    <p class="lede">At a busy Indian junction, the most dangerous moments are not crashes — they are the
+      near-misses nobody records. A pedestrian still on the zebra when the light turns. A two-wheeler
+      squeezed into the junction mouth, right where a car is about to turn. Nothing is written down,
+      so nothing gets fixed. RakshaPath rebuilds that junction as a living 3D model, counts every
+      near-miss, and lets you test three small fixes that real junctions can actually adopt.</p>
+    <div class="cards">
+      <article class="card plate band-red">
+        <h2>The crossing is the conflict</h2>
+        <p>People on foot cross exactly where vehicles turn. When the walking phase is short,
+           slower walkers are still on the road when traffic gets the green — and drivers brake hard, or don't.</p>
+      </article>
+      <article class="card plate band-amber">
+        <h2>Two-wheelers squeeze to the front</h2>
+        <p>In queued traffic, riders filter through gaps and wait inside the junction mouth —
+           invisible to a driver who is about to turn across their path.</p>
+      </article>
+      <article class="card plate band-green">
+        <h2>Nobody can see the pattern</h2>
+        <p>A near-miss leaves no report and no data. Which crossing is worst? Which small change
+           helps most? Without a record, a junction stays dangerous by default. This model keeps the record.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ THE JUNCTION (SOLUTION) ============ -->
+  <section id="junction" class="sim-section">
+    <div class="sim-head">
+      <p class="eyebrow">THE SOLUTION — A LIVE MODEL</p>
+      <h2>One junction, running. You hold the fixes.</h2>
+      <p class="sim-sub">Cars, auto-rickshaws, two-wheelers, a bus and people on foot share one signal cycle.
+        Near-misses flash red on the road and are written into the log. Drag to look around; scroll to zoom.</p>
+    </div>
+
+    <div class="sim-layout">
+      <div class="stage plate">
+        <canvas id="scene" aria-label="3D simulation of a road junction"></canvas>
+        <div class="phase-chip" id="phaseChip">Starting…</div>
+      </div>
+
+      <aside class="deck">
+        <div class="plate ctrl">
+          <p class="plate-label">RUN THE JUNCTION</p>
+          <div class="row">
+            <button id="btnPlay" class="btn primary" type="button">Pause</button>
+            <div class="seg" role="group" aria-label="Simulation speed">
+              <button type="button" data-speed="1" class="on">1×</button>
+              <button type="button" data-speed="2">2×</button>
+              <button type="button" data-speed="4">4×</button>
+            </div>
+            <button id="btnReset" class="btn" type="button">Reset run</button>
+          </div>
+          <label class="slider-row" for="density">
+            <span>Traffic density <b id="densityVal">Steady</b></span>
+            <input id="density" type="range" min="0" max="100" value="55">
+          </label>
+          <label class="slider-row" for="pedSecs">
+            <span>Pedestrian green time <b id="pedSecsVal">7 s</b></span>
+            <input id="pedSecs" type="range" min="4" max="12" step="1" value="7">
+          </label>
+          <div class="row cam-row" role="group" aria-label="Camera views">
+            <button type="button" class="btn small cam on" data-preset="overview">Overview</button>
+            <button type="button" class="btn small cam" data-preset="top">Top</button>
+            <button type="button" class="btn small cam" data-preset="school">School corner</button>
+            <button type="button" class="btn small cam" data-preset="street">Street level</button>
+          </div>
+        </div>
+
+        <div class="plate ctrl">
+          <p class="plate-label">THREE FIXES — SWITCH THEM ON</p>
+          <label class="fix" for="tglIsland">
+            <span class="fix-text"><b>Pedestrian refuge island</b>
+              <small>A raised island mid-crossing. People cross in two short stages and wait safely in the middle.</small></span>
+            <input type="checkbox" id="tglIsland" class="switch">
+          </label>
+          <label class="fix" for="tglStopBox">
+            <span class="fix-text"><b>Two-wheeler stop box</b>
+              <small>A marked box ahead of the car stop line, so riders wait in the open — seen, not squeezed into the junction.</small></span>
+            <input type="checkbox" id="tglStopBox" class="switch">
+          </label>
+          <label class="fix" for="tglRumble">
+            <span class="fix-text"><b>Rumble strips on approaches</b>
+              <small>Strips that slow every vehicle before the crossing, so braking is gentle instead of desperate.</small></span>
+            <input type="checkbox" id="tglRumble" class="switch">
+          </label>
+        </div>
+
+        <div class="plate stats">
+          <p class="plate-label">JUNCTION RECORD</p>
+          <div class="stat-grid">
+            <div class="stat"><span class="stat-num danger" id="stNearTotal">0</span><span class="stat-cap">near-misses</span></div>
+            <div class="stat"><span class="stat-num" id="stRate">0.0</span><span class="stat-cap">per 100 vehicles</span></div>
+            <div class="stat"><span class="stat-num" id="stVeh">0</span><span class="stat-cap">vehicles through</span></div>
+            <div class="stat"><span class="stat-num" id="stPeds">0</span><span class="stat-cap">people crossed</span></div>
+          </div>
+          <ul class="stat-lines">
+            <li>Pedestrian near-misses <b id="stPed">0</b></li>
+            <li>Two-wheeler cut-ins <b id="stCut">0</b></li>
+            <li>Worst spot <b id="stWorst">— none yet</b></li>
+          </ul>
+        </div>
+
+        <div class="plate log">
+          <p class="plate-label">NEAR-MISS LOG</p>
+          <ul id="logList" class="log-list">
+            <li class="log-empty">Nothing yet. Watch the crossings just after the lights change.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ OUTCOME ============ -->
+  <section id="outcome" class="outcome">
+    <p class="eyebrow">THE OUTCOME — COUNTED LIVE FROM THE MODEL ABOVE</p>
+    <h2>Small fixes. Counted difference.</h2>
+    <div class="outcome-grid">
+      <div class="plate outcome-card band-red">
+        <span class="big-num danger" id="outNear">0</span>
+        <p>near-misses this run. Reset the run, switch a fix on, and watch this number climb more slowly.</p>
+      </div>
+      <div class="plate outcome-card band-green">
+        <span class="big-num" id="outSafe">0</span>
+        <p>people have crossed the junction. Every one of them deserved a crossing that did not depend on luck.</p>
+      </div>
+      <div class="plate outcome-card band-amber">
+        <span class="big-num" id="outRate">0.0</span>
+        <p>near-misses per 100 vehicles — the fairest way to compare one set of fixes against another.</p>
+      </div>
+    </div>
+    <p class="outcome-line" id="outSentence">The model is warming up…</p>
+  </section>
+
+  <!-- ============ HOW THE MODEL WORKS ============ -->
+  <section id="model" class="model">
+    <p class="eyebrow">HOW THIS MODEL WORKS</p>
+    <h2>Simple rules, stated plainly</h2>
+    <ul class="rules">
+      <li><b>Left-hand traffic</b>, one fixed signal cycle: north–south green, amber, a pedestrian phase on all four crossings, then east–west.</li>
+      <li><b>Drivers brake for people</b> in their path. If a driver has to brake hard on a green light because someone is still crossing, the model records a near-miss and marks the spot.</li>
+      <li><b>Some riders filter.</b> In a queue of two or more at a red light, a two-wheeler may squeeze to the front. Without a stop box it waits inside the junction mouth — and turning traffic sweeps past it.</li>
+      <li><b>The school corner matters.</b> Groups of children cross near the school on the north-east corner, and they do not always wait for the lights.</li>
+      <li><b>Every fix is mechanical, not magic.</b> The island shortens each crossing stage. The stop box keeps riders visible and in line. Rumble strips lower approach speeds, so braking stays gentle.</li>
+    </ul>
+    <p class="honest">Honest note: this is a <b>teaching model with simple rules</b>. It does not use real traffic data,
+      and it does not predict what any real junction will do. It exists so the pattern of near-misses —
+      and the effect of small fixes — can be seen, counted and argued about with evidence.</p>
+  </section>
+</main>
+
+<footer class="footer">
+  <span><b>RakshaPath 3D</b> — built for the Smart Mobility track of i-Hack, E-Summit ’26, IIT Bombay.</span>
+  <span>Three.js · one static page · no data collected</span>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
