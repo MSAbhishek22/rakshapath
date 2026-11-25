@@ -69,13 +69,24 @@ section { padding: 34px 0 8px; }
 .topnav a:hover { background: var(--ink); color: var(--paper); }
 
 /* ---------- hero / problem ---------- */
+.hero-stage { margin-top: 20px; }
+.hero #scene { height: min(54vh, 520px); }
+.canvas-note { margin: 10px 0 0; color: var(--ink-soft); font-size: 0.95rem; }
+.scroll-cue {
+  display: inline-block; margin-top: 12px;
+  color: var(--ink); text-decoration: none; font-weight: 700; font-size: 0.95rem;
+  border: 2px solid var(--line); border-radius: 999px; padding: 6px 14px;
+  background: var(--paper); box-shadow: 0 2px 0 rgba(28, 43, 57, 0.9);
+}
+.scroll-cue:hover { background: var(--ink); color: var(--paper); }
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; }
 .card h2 { font-size: 1.12rem; margin-top: 2px; }
 .card p { margin: 0; color: var(--ink); font-size: 0.98rem; }
 
 /* ---------- sim layout ---------- */
 .sim-sub { max-width: 68ch; color: var(--ink-soft); margin-top: 0; }
-.sim-layout { display: grid; grid-template-columns: minmax(0, 1fr) 348px; gap: 16px; align-items: start; }
+.sim-layout { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
+.deck { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start; }
 .stage { padding: 0; overflow: hidden; position: relative; }
 #scene { display: block; width: 100%; height: 640px; touch-action: none; cursor: grab; }
 #scene:active { cursor: grabbing; }
@@ -85,7 +96,6 @@ section { padding: 34px 0 8px; }
   padding: 5px 14px; font-weight: 700; font-size: 0.9rem;
   box-shadow: 0 2px 0 rgba(28, 43, 57, 0.85);
 }
-.deck { display: flex; flex-direction: column; gap: 16px; }
 .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .btn {
   font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer;

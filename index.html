@@ -36,6 +36,12 @@
       squeezed into the junction mouth, right where a car is about to turn. Nothing is written down,
       so nothing gets fixed. RakshaPath rebuilds that junction as a living 3D model, counts every
       near-miss, and lets you test three small fixes that real junctions can actually adopt.</p>
+    <div class="stage plate hero-stage">
+      <canvas id="scene" aria-label="3D simulation of a road junction"></canvas>
+      <div class="phase-chip" id="phaseChip">Starting…</div>
+    </div>
+    <p class="canvas-note">The junction above is live — traffic is running now. Drag to look around; scroll to zoom.</p>
+    <a class="scroll-cue" href="#junction">↓ Scroll — the fixes are below</a>
     <div class="cards">
       <article class="card plate band-red">
         <h2>The crossing is the conflict</h2>
@@ -59,17 +65,12 @@
   <section id="junction" class="sim-section">
     <div class="sim-head">
       <p class="eyebrow">THE SOLUTION — A LIVE MODEL</p>
-      <h2>One junction, running. You hold the fixes.</h2>
-      <p class="sim-sub">Cars, auto-rickshaws, two-wheelers, a bus and people on foot share one signal cycle.
-        Near-misses flash red on the road and are written into the log. Drag to look around; scroll to zoom.</p>
+      <h2>You hold the fixes.</h2>
+      <p class="sim-sub">The junction above is running live. Cars, auto-rickshaws, two-wheelers, a bus and people on foot share one signal cycle.
+        Near-misses flash red on the road and are written into the log. Switch a fix on below and watch the count change.</p>
     </div>
 
     <div class="sim-layout">
-      <div class="stage plate">
-        <canvas id="scene" aria-label="3D simulation of a road junction"></canvas>
-        <div class="phase-chip" id="phaseChip">Starting…</div>
-      </div>
-
       <aside class="deck">
         <div class="plate ctrl">
           <p class="plate-label">RUN THE JUNCTION</p>
